@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class GameController : MonoBehaviour
     public static float gameSpeed {
         get => _gameSpeed;
         set {
-            if(value > 0)
+            if(value >= 0)
                 _gameSpeed = value;
         }
         
@@ -20,6 +21,13 @@ public class GameController : MonoBehaviour
 
     const float MAX_SPEED = 0.14f;
 
+    public static bool _isRunning = true;
+    
+    public static bool isRunning{
+        get => _isRunning;
+        set {_isRunning = value;}
+    }
+
 
     void Start()
     {
@@ -27,9 +35,18 @@ public class GameController : MonoBehaviour
     }
 
     void Update()
-    {   
-        if(speed < MAX_SPEED)
-            speed += Time.deltaTime*speedIncreaseRate;
-        gameSpeed = speed;
+    {
+        if(isRunning){
+            if(speed < MAX_SPEED)
+                speed += Time.deltaTime*speedIncreaseRate;
+            gameSpeed = speed;
+        }
+        else{
+            gameSpeed = 0;
+
+
+            isRunning = true;
+            SceneManager.LoadSceneAsync(0,LoadSceneMode.Single);
+        }
     }
 }

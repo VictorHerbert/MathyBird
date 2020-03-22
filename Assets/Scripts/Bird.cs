@@ -10,6 +10,9 @@ public class Bird : MonoBehaviour
     [Header("Params")]
     public float tapForce;
 
+    [Header("Score")]
+    public float fitness = 0;
+
     void Start(){
         rb = GetComponent<Rigidbody2D>();
     }
@@ -25,8 +28,20 @@ public class Bird : MonoBehaviour
         
     }
 
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        Debug.Log(col.name);
+        if(col.name == "Pipe(Clone)")
+            fitness ++;
+        else
+            onfinishBird();
+    }
+
     public void onTap(){
         rb.velocity = new Vector2(0,tapForce);
-        Debug.Log("tapou");
+    }
+
+    public void onfinishBird(){
+        GameController.isRunning = false;
     }
 }

@@ -39,8 +39,9 @@ public class Spawnner : MonoBehaviour
                 transform
             );
 
-            instTime = distanceBetween/GameController.gameSpeed+Time.time;
-            Debug.Log(distanceBetween/GameController.gameSpeed);
+
+            instTime = distanceBetween/Mathf.Max(GameController.gameSpeed,.001f)+Time.time;
         }
     }
+
 }
