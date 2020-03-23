@@ -2,51 +2,100 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
-    public static float _gameSpeed = .01f;
 
-    public static float gameSpeed {
-        get => _gameSpeed;
-        set {
-            if(value >= 0)
-                _gameSpeed = value;
-        }
-        
-    }
+#region variables
+
+    static GameController _instance;
     
-    public float speed;
-    public float speedIncreaseRate = 0.01f;
+    
+    [Header("Params")]
+    [SerializeField] float _startSpeed = .01f;
+    [SerializeField] float _speed = .01f;
+    [SerializeField] float _speedIncrease = .001f;
 
     const float MAX_SPEED = 0.14f;
 
-    public static bool _isRunning = true;
-    
-    public static bool isRunning{
-        get => _isRunning;
-        set {_isRunning = value;}
+    int _score;
+    public bool isRunning = false;
+    public bool isFinished = false;
+
+    [Header("GameObjects")]
+    public TextMeshProUGUI scoreText;
+    public GameObject tapIcon;
+
+
+#endregion
+
+#region Getters/Setters
+
+    public static GameController instance{
+        get => _instance;
     }
 
+    public float speed {
+        get => _speed;
+        set {
+            if((value >= 0) && (value < MAX_SPEED))
+                _speed = value;
+        }
+        
+    }
+
+     public float startSpeed {
+        get => _startSpeed;
+    }
+
+    public float speedIncrease {
+        get => _speedIncrease;
+        set {
+            if(value >= 0)
+                _speedIncrease = value;
+        }
+        
+    }
+
+    public int score{
+        get => _score;
+        set {
+            if(value >= 0){
+                _score = value;
+                scoreText.text = score.ToString();
+            }
+        }
+    }
+
+#endregion
 
     void Start()
     {
-        
+        _instance = this;
     }
+
+    public void onStartGame(){
+        isRunning = true;
+        tapIcon.SetActive(false);
+        speed = startSpeed;
+    }
+    
 
     void Update()
     {
         if(isRunning){
-            if(speed < MAX_SPEED)
-                speed += Time.deltaTime*speedIncreaseRate;
-            gameSpeed = speed;
+            speed += Time.deltaTime*speedIncrease;
         }
         else{
-            gameSpeed = 0;
+            speed = 0;
 
 
-            isRunning = true;
-            SceneManager.LoadSceneAsync(0,LoadSceneMode.Single);
+            if(isFinished){
+                isRunning = true;
+                isFinished = false;
+                SceneManager.LoadSceneAsync(0,LoadSceneMode.Single);
+            }
         }
     }
 }

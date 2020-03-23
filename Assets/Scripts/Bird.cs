@@ -11,10 +11,11 @@ public class Bird : MonoBehaviour
     public float tapForce;
 
     [Header("Score")]
-    public float fitness = 0;
+    public int fitness = 0;
 
     void Start(){
         rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0;
     }
 
     public float angleScale;
@@ -28,20 +29,26 @@ public class Bird : MonoBehaviour
         
     }
 
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        Debug.Log(col.name);
-        if(col.name == "Pipe(Clone)")
-            fitness ++;
+    void OnTriggerEnter2D(Collider2D col){
+        if(col.name == "Pipe(Clone)"){
+            onPassPipe();
+        }
         else
             onfinishBird();
     }
 
     public void onTap(){
+        rb.gravityScale = 2;
         rb.velocity = new Vector2(0,tapForce);
     }
 
+    public void onPassPipe(){
+        fitness++;
+        GameController.instance.score=fitness;
+    }
+
     public void onfinishBird(){
-        GameController.isRunning = false;
+        GameController.instance.isRunning = false;
+        GameController.instance.isFinished = true;
     }
 }

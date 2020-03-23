@@ -18,11 +18,11 @@ public class BackgroundRoller : MonoBehaviour
     
     void Update()
     {
-        offsetGround += groundSpeed*GameController.gameSpeed;
-        offsetBackground += backgroundSpeed*GameController.gameSpeed;
+        offsetGround += groundSpeed*GameController.instance.speed;
+        offsetBackground += backgroundSpeed*GameController.instance.speed;
         
-        groundMat.SetTextureOffset("_MainTex",new Vector2(offsetGround,0));
-        backgroundMat.SetTextureOffset("_MainTex",new Vector2(offsetBackground,0));
+        groundMat.SetTextureOffset("_BaseMap",new Vector2(offsetGround,0));
+        backgroundMat.SetTextureOffset("_BaseMap",new Vector2(offsetBackground,0));
     }
 
 

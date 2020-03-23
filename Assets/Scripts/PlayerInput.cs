@@ -15,6 +15,9 @@ public class PlayerInput : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space)){
+            if(!GameController.instance.isRunning & !GameController.instance.isFinished){
+                GameController.instance.onStartGame();
+            }
             bird.onTap();
         }
         

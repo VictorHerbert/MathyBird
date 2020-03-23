@@ -8,15 +8,15 @@ public class Spawnner : MonoBehaviour
     public GameObject pipe;
 
     [Header("Params")]
-    public float distanceBetween = 0;
+    public float distanceBetween = 0.06f;
 
     [Header("Ranges")]
-    public float minY;
-    public float maxY;
-    public float maxRange;
+    public float minY = -0.7f;
+    public float maxY = 2.6f;
+    public float maxRange = .12f;
     
 
-    float instTime;
+    float instTime = 0;
     Vector3 instPos;
     float prevY;
 
@@ -24,23 +24,33 @@ public class Spawnner : MonoBehaviour
     {
         instPos = transform.position;
         prevY = 0;
+
     }
 
     void Update()
     {
-        if(Time.time > instTime){
-            instPos.y = Random.Range(Mathf.Max(minY,prevY-maxRange), Mathf.Min(maxY,prevY+maxRange));
-            prevY = instPos.y;
+        if(GameController.instance.isRunning){
+            /*if(instTime == 0){
+                instTime = distanceBetween/Mathf.Max(GameController.instance.speed,GameController.instance.startSpeed)+Time.time;
+                Debug.Log(distanceBetween/Mathf.Max(GameController.instance.speed,GameController.instance.startSpeed));
+            }*/
+            if(Time.time > instTime){
+                
 
-            Instantiate(
-                pipe,
-                instPos,
-                Quaternion.identity,
-                transform
-            );
+                instPos.y = Random.Range(Mathf.Max(minY,prevY-maxRange), Mathf.Min(maxY,prevY+maxRange));
+                prevY = instPos.y;
+
+                Instantiate(
+                    pipe,
+                    instPos,
+                    Quaternion.identity,
+                    transform
+                );
 
 
-            instTime = distanceBetween/Mathf.Max(GameController.gameSpeed,.001f)+Time.time;
+                instTime = distanceBetween/Mathf.Max(GameController.instance.speed,GameController.instance.startSpeed)+Time.time;
+                Debug.Log(distanceBetween/Mathf.Max(GameController.instance.speed,GameController.instance.startSpeed));
+            }
         }
     }
 
