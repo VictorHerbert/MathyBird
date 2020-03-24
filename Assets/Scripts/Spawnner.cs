@@ -29,7 +29,7 @@ public class Spawnner : MonoBehaviour
 
     void Update()
     {
-        if(GameController.instance.isRunning){
+        if(GameController.instance.gameState == GameState.running){
             /*if(instTime == 0){
                 instTime = distanceBetween/Mathf.Max(GameController.instance.speed,GameController.instance.startSpeed)+Time.time;
                 Debug.Log(distanceBetween/Mathf.Max(GameController.instance.speed,GameController.instance.startSpeed));
@@ -49,7 +49,7 @@ public class Spawnner : MonoBehaviour
 
 
                 instTime = distanceBetween/Mathf.Max(GameController.instance.speed,GameController.instance.startSpeed)+Time.time;
-                Debug.Log(distanceBetween/Mathf.Max(GameController.instance.speed,GameController.instance.startSpeed));
+                //Debug.Log(distanceBetween/Mathf.Max(GameController.instance.speed,GameController.instance.startSpeed));
             }
         }
     }

@@ -7,7 +7,7 @@ public class Pipe : MonoBehaviour
 
     Vector3 pos;
 
-    const float MAX_SCREEN_TIME = 7;
+    const float MAX_SCREEN_TIME = 14;
 
     
     void Start()

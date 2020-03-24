@@ -21,13 +21,31 @@ public class Bird : MonoBehaviour
     public float angleScale;
 
     void Update(){
-        transform.rotation = Quaternion.Lerp(
-            transform.rotation,
-            Quaternion.Euler(0,0,rb.velocity.y*angleScale),
-            1
-        );
+
+          if(GameController.instance.gameState == GameState.running){
+            transform.rotation = Quaternion.Lerp(
+                transform.rotation,
+                Quaternion.Euler(0,0,rb.velocity.y*angleScale),
+                .8f
+            );
+        }
+        else if(GameController.instance.gameState == GameState.toStart){
+            Vector3 v = transform.position;
+            if(v.x > 0){
+                v.x -= vel*Time.deltaTime;
+                vel -= 0.001f;
+            }
+            else
+                GameController.instance.gameState = GameState.ready;
+            v.y = .5f*Mathf.Sin(Time.time);
+            transform.position = v;
+        }
+
         
     }
+
+    public float vel;
+    public float timecorr;
 
     void OnTriggerEnter2D(Collider2D col){
         if(col.name == "Pipe(Clone)"){
@@ -48,7 +66,6 @@ public class Bird : MonoBehaviour
     }
 
     public void onfinishBird(){
-        GameController.instance.isRunning = false;
-        GameController.instance.isFinished = true;
+        GameController.instance.gameState = GameState.finished;
     }
 }

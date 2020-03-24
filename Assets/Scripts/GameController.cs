@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+public enum GameState{
+    menu, toStart, ready, running, hit, finished
+}
+
 public class GameController : MonoBehaviour
 {
 
@@ -19,13 +23,23 @@ public class GameController : MonoBehaviour
 
     const float MAX_SPEED = 0.14f;
 
+    public GameState gameState = GameState.menu;
+
     int _score;
-    public bool isRunning = false;
-    public bool isFinished = false;
+
+    float startTime;
+    public float elapsedTime{
+        get => ((gameState == GameState.running) ? (Time.time - startTime) : 0); 
+    }
+    public float elapsedMenuTime{
+        get => ( ((gameState == GameState.toStart)||(gameState == GameState.ready)) ? (Time.time - startTime) : 0); 
+    }
+
 
     [Header("GameObjects")]
     public TextMeshProUGUI scoreText;
     public GameObject tapIcon;
+    public Animator menu;
 
 
 #endregion
@@ -75,8 +89,16 @@ public class GameController : MonoBehaviour
         _instance = this;
     }
 
+    public void onMenuEnter(){
+        menu.SetBool("GameStarted",true);
+        gameState = GameState.toStart;
+        startTime = Time.time;
+    }
+
     public void onStartGame(){
-        isRunning = true;
+        gameState = GameState.running;
+        startTime = Time.time;
+
         tapIcon.SetActive(false);
         speed = startSpeed;
     }
@@ -84,16 +106,14 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        if(isRunning){
+        if(gameState == GameState.running){
             speed += Time.deltaTime*speedIncrease;
         }
         else{
             speed = 0;
 
 
-            if(isFinished){
-                isRunning = true;
-                isFinished = false;
+            if(gameState == GameState.finished){
                 SceneManager.LoadSceneAsync(0,LoadSceneMode.Single);
             }
         }

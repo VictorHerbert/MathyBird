@@ -14,11 +14,17 @@ public class PlayerInput : MonoBehaviour
     
     void Update()
     {
+        
         if(Input.GetKeyDown(KeyCode.Space)){
-            if(!GameController.instance.isRunning & !GameController.instance.isFinished){
+            if(GameController.instance.gameState == GameState.ready){
                 GameController.instance.onStartGame();
+                bird.onTap();
             }
-            bird.onTap();
+            if(GameController.instance.gameState == GameState.running){
+                GameController.instance.onStartGame();
+                bird.onTap();
+            }
+            
         }
         
     }
