@@ -1,7 +1,7 @@
 # FlappyBird
 
 <p align="center">
-  <img src="https://github.com/VictorHerbert/FlappyBird/raw/master/Assets/Resources/Screenshoots/Menu.png" width="1600" height="900"/>
+  <img src="https://github.com/VictorHerbert/FlappyBird/raw/master/Assets/Resources/Screenshoots/Menu.png" width="800" height="450"/>
 </p>
 
 
