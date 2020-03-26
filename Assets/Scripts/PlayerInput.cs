@@ -21,7 +21,6 @@ public class PlayerInput : MonoBehaviour
                 bird.onTap();
             }
             if(GameController.instance.gameState == GameState.running){
-                GameController.instance.onStartGame();
                 bird.onTap();
             }
             

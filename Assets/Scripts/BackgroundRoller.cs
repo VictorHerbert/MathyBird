@@ -25,6 +25,7 @@ public class BackgroundRoller : MonoBehaviour
     void Start()
     {
         blend = 0;
+        backgroundMat.SetFloat("_blend", blend);
     }
 
     void Update()
@@ -34,6 +35,7 @@ public class BackgroundRoller : MonoBehaviour
             offsetBackground += backgroundSpeed*GameController.instance.speed;
 
             blend = blendCurve.Evaluate(GameController.instance.elapsedTime);
+            //Debug.Log(GameController.instance.elapsedTime);
                     
             backgroundMat.SetFloat("_blend", blend);
             groundMat.SetTextureOffset("_BaseMap",new Vector2(offsetGround,0));
@@ -41,7 +43,6 @@ public class BackgroundRoller : MonoBehaviour
         }
         else if ((GameController.instance.gameState == GameState.toStart) || (GameController.instance.gameState == GameState.ready)){
             blend = startCurve.Evaluate(GameController.instance.elapsedMenuTime);
-            Debug.Log(blend);
 
             offsetGround += groundSpeed*Mathf.Min(blend,GameController.instance.startSpeed);
             offsetBackground += backgroundSpeed*Mathf.Min(blend,GameController.instance.startSpeed);
