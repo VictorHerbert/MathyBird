@@ -2,8 +2,7 @@
 
 AI controlled FlappyBird
 
-Base material in (FlappyBird)[https://github.com/VictorHerbert/FlappyBird/]
-
+Base material in [FlappyBird](https://github.com/VictorHerbert/FlappyBird/)
 
 ## Features
 

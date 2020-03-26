@@ -130,7 +130,7 @@ Material:
     - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
-    - _offset: {r: 2.4441206, g: 0, b: 0, a: 0}
+    - _offset: {r: 2.0680773, g: 0, b: 0, a: 0}
     - _tilling: {r: 4.616667, g: 1, b: 0, a: 0}
 --- !u!114 &2725209925265713301
 MonoBehaviour:
