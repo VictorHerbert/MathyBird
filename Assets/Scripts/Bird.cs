@@ -6,26 +6,31 @@ public class Bird : MonoBehaviour
 {
 
     Rigidbody2D rb;
+    NeuralNetwork network;
 
     [Header("Params")]
     public float tapForce;
+    public float cooldown;
+    float prevtime = 0;
+    public float angleScale;
 
     [Header("Score")]
-    public int fitness = 0;
+    public int score = 0;
+    public float fitness = 0;
+
+
 
     void Start(){
         rb = GetComponent<Rigidbody2D>();
+        network = GetComponent<NeuralNetwork>();
         rb.gravityScale = 0;
     }
 
-    public float angleScale;
+    
 
     void Update(){
-        if ( (GameController.instance.gameState == GameState.toStart) || (GameController.instance.gameState == GameState.ready) )
-        {
+        if (GameController.instance.gameState == GameState.ready)
             transform.position = new Vector3(transform.position.x,.5f*Mathf.Sin(Time.time),transform.position.z);
-
-        }
         if(GameController.instance.gameState == GameState.running){
             transform.rotation = Quaternion.Lerp(
                 transform.rotation,
@@ -33,27 +38,31 @@ public class Bird : MonoBehaviour
                 .8f
             );
         }
+        fitness = Time.timeSinceLevelLoad;
     }
 
     void OnTriggerEnter2D(Collider2D col){
-        if(col.name == "Pipe(Clone)"){
-            onPassPipe();
-        }
+        if(col.name == "Pipe(Clone)")
+            onPassPipe();        
         else
             onfinishBird();
     }
 
     public void onTap(){
         rb.gravityScale = 2;
-        rb.velocity = new Vector2(0,tapForce);
+        if(Time.time - prevtime >= cooldown){
+            prevtime = Time.time;
+            rb.velocity = new Vector2(0,tapForce);
+        }
     }
 
     public void onPassPipe(){
-        fitness++;
-        GameController.instance.score=fitness;
+        score++;
     }
 
     public void onfinishBird(){
+        if(network.weightData.fitness < fitness)
+            network.SaveFile(fitness);
         GameController.instance.gameState = GameState.finished;
     }
 }
